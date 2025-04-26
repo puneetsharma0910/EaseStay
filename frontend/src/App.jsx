@@ -1,13 +1,20 @@
-import React from 'react'
+import React from "react";
+import Navbar from "./components/Navbar.jsx";
+import { Route, Routes, useLocation } from "react-router-dom";
+import Hero from "./components/Hero.jsx";
 
 const App = () => {
-  return (
-    <div>
+  const isOpenOwner = useLocation().pathname.includes("owner");
+  return <div>
+    
+    
+    {!isOpenOwner && <Navbar />}
+    <Routes>
 
-      hihihiihh
-      
-    </div>
-  )
-}
+      <Route path="/" element={<Hero />} />
+    </Routes>
+    
+    </div>;
+};
 
-export default App
+export default App;
