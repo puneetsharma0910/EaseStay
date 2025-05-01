@@ -73,7 +73,7 @@ export const assets = {
   totalRevenueIcon,
 };
 
-export const cities = ["Dubai", "Singapore", "New York", "London"];
+export const cities = ["Delhi", "Jaipur", "Udaipur", "Shimla"];
 
 // Exclusive Offers Dummy Data
 export const exclusiveOffers = [
@@ -108,33 +108,33 @@ export const exclusiveOffers = [
 export const testimonials = [
   {
     id: 1,
-    name: "Emma Rodriguez",
-    address: "Barcelona, Spain",
+    name: "Ananya Mehta",
+    address: "Delhi, India",
     image:
       "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200",
     rating: 5,
     review:
-      "I've used many booking platforms before, but none compare to the personalized experience and attention to detail that QuickStay provides.",
+      "I've used many booking platforms before, but none compare to the personalized experience and attention to detail that EaseStay provides.",
   },
   {
     id: 2,
-    name: "Liam Johnson",
-    address: "New York, USA",
+    name: "Rohan Verma",
+    address: "Mumbai, India",
     image:
       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200",
     rating: 4,
     review:
-      "QuickStay exceeded my expectations. The booking process was seamless, and the hotels were absolutely top-notch. Highly recommended!",
+      "EaseStay exceeded my expectations. The booking process was seamless, and the hotels were absolutely top-notch. Highly recommended!",
   },
   {
     id: 3,
-    name: "Sophia Lee",
-    address: "Seoul, South Korea",
+    name: "Priya Nair",
+    address: "Kochi, India",
     image:
       "https://images.unsplash.com/photo-1701615004837-40d8573b6652?q=80&w=200",
     rating: 5,
     review:
-      "Amazing service! I always find the best luxury accommodations through QuickStay. Their recommendations never disappoint!",
+      "Amazing service! I always find the best luxury accommodations through EaseStay. Their recommendations never disappoint!",
   },
 ];
 

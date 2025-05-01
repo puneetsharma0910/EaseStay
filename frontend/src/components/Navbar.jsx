@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { useClerk, useUser, UserButton } from "@clerk/clerk-react";
@@ -25,7 +25,7 @@ const BookIcon = () => (
 const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Hotels", path: "/Hotels" },
+    { name: "Hotels", path: "/rooms" },
     { name: "Experience", path: "/" },
     { name: "About", path: "/" },
   ];
@@ -37,13 +37,23 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if(location.pathname !== "/") {
+      setIsScrolled(true);
+    }
+    else {
+      setIsScrolled(false);
+    }
+    // setIsScrolled(prev => location.pathname !== "/" ? true : prev);
+
+    
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   return (
     <nav
@@ -55,12 +65,15 @@ const Navbar = () => {
     >
       {/* Logo */}
       <Link
-        to="/"
-        style={{ color: "white" }}
-        className="flex items-center gap-2 text-3xl font-semibold font-sans"
-      >
-        <p>EaseStay</p>
-      </Link>
+  to="/"
+  className={`flex items-center gap-2 text-3xl font-semibold font-sans transition-all duration-300 ${
+    isScrolled ? "text-gray-800" : "text-black"
+  }`}
+>
+  <p className="flex items-center gap-2 transition-all ">
+    <img src="./review.png" alt="" width={"40px"} height={"40px"} className="mb-2.5"/>EaseStay</p>
+</Link>
+
       {/* Desktop Nav */}
       <div className="hidden md:flex items-center gap-4 lg:gap-8">
         {navLinks.map((link, i) => (
@@ -68,7 +81,7 @@ const Navbar = () => {
             key={i}
             href={link.path}
             className={`group flex flex-col gap-0.5 ${
-              isScrolled ? "text-gray-700" : "text-white"
+              isScrolled ? "text-gray-700" : "text-black"
             }`}
           >
             {link.name}
@@ -82,7 +95,7 @@ const Navbar = () => {
         <button
           onClick={() => navigate("/owner")}
           className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${
-            isScrolled ? "text-black" : "text-white"
+            isScrolled ? "text-black" : "text-black"
           } transition-all`}
         >
           Dashboard
