@@ -65,14 +65,16 @@ const Navbar = () => {
     >
       {/* Logo */}
       <Link
-  to="/"
-  className={`flex items-center gap-2 text-3xl font-semibold font-sans transition-all duration-300 ${
-    isScrolled ? "text-gray-800" : "text-black"
-  }`}
->
-  <p className="flex items-center gap-2 transition-all ">
-    <img src="./review.png" alt="" width={"40px"} height={"40px"} className="mb-2.5"/>EaseStay</p>
-</Link>
+        to="/"
+        className={`flex items-center gap-2 text-3xl font-semibold font-sans transition-all duration-300 ${
+          isScrolled ? "text-gray-800" : "text-black"
+        }`}
+      >
+        <p className="flex items-center gap-2 transition-all">
+          <img src="/review.png" alt="EaseStay Logo" className="h-10" />
+          EaseStay
+        </p>
+      </Link>
 
       {/* Desktop Nav */}
       <div className="hidden md:flex items-center gap-4 lg:gap-8">
