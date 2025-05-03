@@ -2,9 +2,38 @@ import React from "react";
 import { assets, facilityIcons, roomsDummyData } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import StarRating from "../components/StarRating";
+import { useState } from "react";
+const checkbox =({label, selected = false, onchange=()=>{}}) => {
+  return (
+    <label className="flex gap-3 items-center cursor-pointer mt-2 text-sm" 
+    >
+      <input type="checkbox" checked={selected}
+      onChange={(e)=>onchange(e.target.checked, label)} />
+      <span className="font-light select-none">{label}</span>
+    </label>
+  )
+}
+const radiobutton =({label, selected = false, onchange=()=>{}}) => {
+  return (
+    <label className="flex gap-3 items-center cursor-pointer mt-2 text-sm" 
+    >
+      <input type="radio" checked={selected}
+      onChange={()=>onchange( label)} />
+      <span className="font-light select-none">{label}</span>
+    </label>
+  )
+}
 
 const Rooms = () => {
   const navigate = useNavigate();
+  const [openFilters, setopenFilters] = useState(false);
+  const roomtype = ["Single", "Double", "Suite"];
+  const roomprice = ["0 to 1000", "1000 to 2000", "2000 to 3000"]
+  const sortoptions = [
+    "Price: Low to High",
+    "Price: High to Low",
+     "newest first",
+  ];
   return (
     <div className="flex flex-col-reverse lg:flex-row items-start justify-between pt-28 md:pt-35 px-4 md:px-16 lg:px-32">
       <div>
@@ -55,21 +84,61 @@ const Rooms = () => {
                 {/* room amenities */}
                 <div className="flex items-center flex-wrap  gap-4 mt-3 mb-6">
                   {room.amenities.map((item, index) => {
-                    return <div>
-
-                      <img src={facilityIcons[item ]} alt={item}
-                      className="w-5 h-5 " />
-                      <p className="text-xs">{item}</p>
-                    </div>;
+                    return (
+                      <div
+                        key={index}
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#F5F5F5]/70"
+                      >
+                        <img
+                          src={facilityIcons[item]}
+                          alt={item}
+                          className="w-5 h-5 "
+                        />
+                        <p className="text-xs">{item}</p>
+                      </div>
+                    );
                   })}
                 </div>
+                {/* room price per night */}
+                <p className="text-xl font-medium text-gray-700">
+                  &#8377;{room.pricePerNight} /night{" "}
+                </p>
               </div>
             </div>
           );
         })}
       </div>
       {/* filers */}
-      <div></div>
+      <div className="bg-white w-80 border border-gray-300 text-gray-600 max-lg:mb-8 min:lg:mt-16">
+        <div
+          className={`flex items-center justify-between px-5 py-2.5 min-lg:border-b border-gray-300 ${
+            openFilters && "border-b"
+          } `}
+        >
+          <p className="text-base font-medium text-gray-800 ">Filters</p>
+          <div className="text-xs cursor-pointer">
+            <span
+              className="lg:hidden"
+              onClick={() => setopenFilters(!openFilters)}
+            >
+              {openFilters ? "Hide" : "Show"}
+            </span>
+            <span className="hidden lg:block">Clear</span>
+          </div>
+        </div> 
+        <div
+          className={`${
+            openFilters ? "h-auto" : "h-0 lg:h-auto"
+          } transition-all duration-700`}
+        >
+          <div className="px-5 pt-5">
+            <p className="font-medium text-gray-800 pb-2">Popular Filters</p>
+            {roomtype.map((room,index)=>{
+              return 
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
