@@ -6,6 +6,8 @@ import Home from "./Pages/Home.jsx";
 import Footer from "./components/Footer.jsx";
 import Rooms from "./Pages/Rooms.jsx";
 import RoomDetails from "./Pages/RoomDetails.jsx";
+import MyBookings from "./Pages/MyBookings.jsx";
+
 
 
 const App = () => {
@@ -18,6 +20,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/rooms" element={<Rooms />} />
           <Route path="/rooms/:id" element={<RoomDetails />} />
+         
+          <Route path="/my-bookings" element={<MyBookings />} />
         </Routes>
       </div>
 
