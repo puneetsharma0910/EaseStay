@@ -10,14 +10,16 @@ import MyBookings from "./Pages/MyBookings.jsx";
 import HotelReg from "./components/HotelReg.jsx";
 import Layout from "./Pages/hotelOwner/Layout.jsx";
 
-
+import AddRoom from "./Pages/hotelOwner/AddRoom.jsx";
+import Dashboard from "./Pages/hotelOwner/Dashboard.jsx";
+import ListRoom from "./Pages/hotelOwner/ListRoom.jsx";
 
 const App = () => {
   const isOpenOwner = useLocation().pathname.includes("owner");
   return (
     <div>
       {!isOpenOwner && <Navbar />}
-      {/* <HotelReg/> */}
+      
       <div className="min-h-[70vh]">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,7 +27,11 @@ const App = () => {
           <Route path="/rooms/:id" element={<RoomDetails />} />
          
           <Route path="/my-bookings" element={<MyBookings />} />
-          <Route path="/owner" element={<Layout />} />
+          <Route path="/owner" element={<Layout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="add-room" element={<AddRoom />} />
+            <Route path="list-room" element={<ListRoom />} />
+          </Route>
         </Routes>
       </div>
 
