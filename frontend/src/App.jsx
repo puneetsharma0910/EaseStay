@@ -7,6 +7,7 @@ import Footer from "./components/Footer.jsx";
 import Rooms from "./Pages/Rooms.jsx";
 import RoomDetails from "./Pages/RoomDetails.jsx";
 import MyBookings from "./Pages/MyBookings.jsx";
+import HotelReg from "./components/HotelReg.jsx";
 
 
 
@@ -15,6 +16,7 @@ const App = () => {
   return (
     <div>
       {!isOpenOwner && <Navbar />}
+      <HotelReg/>
       <div className="min-h-[70vh]">
         <Routes>
           <Route path="/" element={<Home />} />
