@@ -8,6 +8,7 @@ import Rooms from "./Pages/Rooms.jsx";
 import RoomDetails from "./Pages/RoomDetails.jsx";
 import MyBookings from "./Pages/MyBookings.jsx";
 import HotelReg from "./components/HotelReg.jsx";
+import Layout from "./Pages/hotelOwner/Layout.jsx";
 
 
 
@@ -16,7 +17,7 @@ const App = () => {
   return (
     <div>
       {!isOpenOwner && <Navbar />}
-      <HotelReg/>
+      {/* <HotelReg/> */}
       <div className="min-h-[70vh]">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/rooms/:id" element={<RoomDetails />} />
          
           <Route path="/my-bookings" element={<MyBookings />} />
+          <Route path="/owner" element={<Layout />} />
         </Routes>
       </div>
 
