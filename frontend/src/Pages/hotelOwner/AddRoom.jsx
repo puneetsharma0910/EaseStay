@@ -1,5 +1,6 @@
 import React from 'react'
 import Title from '../../components/Title'
+import { assets } from '../../assets/assets'
 
 const AddRoom = () => {
   const [images, setimages] = useState({
@@ -35,7 +36,13 @@ const AddRoom = () => {
       <p className='text-gray-800 not-visited:mt-10' >Images</p>
       <div className='grid grid-cols-2 sm:flex gap-4 my-2 flex-wrap'>
         {Object.keys(images).map((key)=>(
-          <label htmlFor=""></label>
+          <label htmlFor={`roomImage${key}`} key={key}>
+            <img 
+            className='max-h-13 cursor-pointer opacity-80'
+            
+            src={images[key] ? URL.createObjectURL(images[key])  : assets.uploadArea} alt="" />
+            <input type="file" />
+          </label>
         ))}
 
       </div>
