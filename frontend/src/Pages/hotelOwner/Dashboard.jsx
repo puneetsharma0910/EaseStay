@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { assets } from '../../assets/assets'
 import Title from '../../components/Title';
-// import { useAppContext } from '../../context/AppContext';
+import { useAppContext } from '../../context/AppContext';
 
 const Dashboard = () => {
 
-    // const { currency, user, getToken, toast, axios } = useAppContext();
+    const { currency, user, getToken, toast, axios } = useAppContext();
 
     const [dashboardData, setDashboardData] = useState({
         bookings: [],
@@ -26,11 +26,11 @@ const Dashboard = () => {
         }
     }
 
-    // useEffect(() => {
-    //     if (user) {
-    //         fetchDashboardData();
-    //     }
-    // }, [user]);
+    useEffect(() => {
+        if (user) {
+            fetchDashboardData();
+        }
+    }, [user]);
 
     return (
         <div>
