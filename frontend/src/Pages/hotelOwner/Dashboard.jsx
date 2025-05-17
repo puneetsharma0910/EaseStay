@@ -46,8 +46,8 @@ const Dashboard = () => {
                 <div className='bg-primary/3 border border-primary/10 rounded flex p-4 pr-8'>
                     <img className='max-sm:hidden h-10' src={assets.totalRevenueIcon} alt="" />
                     <div className='flex flex-col sm:ml-4 font-medium'>
-                        {/* <p className='text-blue-500 text-lg'>Total Revenue</p>
-                        <p className='text-neutral-400 text-base'>{currency} { dashboardData.totalRevenue }</p> */}
+                        <p className='text-blue-500 text-lg'>Total Revenue</p>
+                        <p className='text-neutral-400 text-base'>{currency} { dashboardData.totalRevenue }</p>
                     </div>
                 </div>
             </div>

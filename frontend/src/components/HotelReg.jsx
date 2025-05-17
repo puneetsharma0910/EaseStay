@@ -1,6 +1,6 @@
 import { useState } from "react";
-///import { useAppContext } from "../context/AppContext";
-//import toast from "react-hot-toast";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 import { assets, cities } from "../assets/assets";
 
 const HotelReg = () => {
