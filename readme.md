@@ -1,39 +1,56 @@
 # EaseStay
 
-EaseStay is a full-stack hotel booking platform that enables users to discover, book, and manage hotel stays, while providing hotel owners with tools to manage their listings and bookings. The project is built with a React + Vite frontend and an Express/MongoDB backend, featuring authentication via Clerk, image uploads with Cloudinary, and payment integration with Stripe.
+EaseStay is a modern, full-stack hotel booking platform designed to streamline the process of discovering, booking, and managing hotel stays. Built with a scalable architecture and industry-standard technologies, EaseStay provides a seamless experience for both guests and hotel owners.
 
 ---
 
 ## Table of Contents
 
+- [Project Overview](#project-overview)
 - [Features](#features)
-- [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Environment Variables](#environment-variables)
-  - [Installation](#installation)
-  - [Running Locally](#running-locally)
+- [Architecture](#architecture)
+- [Setup & Installation](#setup--installation)
+- [Environment Variables](#environment-variables)
 - [Project Structure](#project-structure)
-- [API Overview](#api-overview)
+- [API Endpoints](#api-endpoints)
 - [Testing](#testing)
-- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
 
 ---
 
+## Project Overview
+
+EaseStay enables users to:
+- Search and filter hotels and rooms by city and amenities
+- Book rooms with secure payment integration
+- Manage their bookings and recent searches
+
+Hotel owners can:
+- Register and manage their hotels
+- Add, update, and toggle room availability
+- View analytics and booking data
+
+---
+
 ## Features
 
-- User authentication and authorization (Clerk)
-- Hotel and room listing management for owners
-- Room search, filtering, and booking for users
-- Image uploads (Cloudinary)
-- Payment processing (Stripe)
-- Responsive, modern UI (React, TailwindCSS)
-- Owner dashboard with analytics
-- Email notifications (Nodemailer)
-- Webhooks for user and payment events
+- **Authentication:** Secure user and owner authentication via Clerk
+- **Hotel & Room Management:** CRUD operations for hotels and rooms
+- **Image Uploads:** Cloudinary integration for fast, reliable image hosting
+- **Payments:** Stripe integration for secure transactions
+- **Recent Searches:** Personalized user experience with recent city searches
+- **Responsive UI:** Built with React and TailwindCSS for modern, mobile-friendly design
+- **Notifications:** Toast notifications for user feedback
+
+---
+
+## Tech Stack
+
+- **Frontend:** React, Vite, TailwindCSS, Clerk, React Router
+- **Backend:** Node.js, Express, MongoDB (Mongoose), Clerk, Stripe, Cloudinary, Nodemailer
+- **DevOps:** Vercel, dotenv, nodemon
 
 ---
 
@@ -44,32 +61,59 @@ frontend/   # React + Vite client
 backend/    # Express API, MongoDB models, controllers
 ```
 
-- **Frontend:** SPA using React, React Router, TailwindCSS, Clerk for auth.
+- **Frontend:** SPA using React, React Router, TailwindCSS, Clerk for authentication.
 - **Backend:** REST API with Express, MongoDB (Mongoose), Clerk middleware, Stripe, Cloudinary.
 - **Deployment:** Vercel (frontend and backend), environment-based configuration.
 
 ---
 
-## Tech Stack
-
-- **Frontend:** React 19, Vite, TailwindCSS, Clerk, React Router
-- **Backend:** Node.js, Express 5, MongoDB, Mongoose, Clerk, Stripe, Cloudinary, Nodemailer
-- **DevOps:** Vercel, dotenv, nodemon
-
----
-
-## Getting Started
+## Setup & Installation
 
 ### Prerequisites
 
-- Node.js (v18+ recommended)
+- Node.js (v18+)
 - npm or yarn
 - MongoDB Atlas account
 - Clerk account (for authentication)
 - Cloudinary account (for image uploads)
 - Stripe account (for payments)
 
-### Environment Variables
+### Installation Steps
+
+1. **Clone the repository:**
+    ```sh
+    git clone https://github.com/your-username/EaseStay.git
+    cd EaseStay
+    ```
+
+2. **Install dependencies:**
+    ```sh
+    # Backend
+    cd backend
+    npm install
+
+    # Frontend
+    cd ../frontend
+    npm install
+    ```
+
+3. **Configure environment variables:**  
+   See [Environment Variables](#environment-variables).
+
+4. **Run the application locally:**
+    ```sh
+    # Start backend
+    cd backend
+    npm run server
+
+    # Start frontend (in a new terminal)
+    cd ../frontend
+    npm run dev
+    ```
+
+---
+
+## Environment Variables
 
 Create `.env` files in both `backend/` and `frontend/` directories.
 
@@ -82,6 +126,7 @@ CLERK_WEBHOOK_SECRET=your_clerk_webhook_secret
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+STRIPE_SECRET_KEY=your_stripe_secret_key
 SMTP_USER=your_smtp_user
 SMTP_PASS=your_smtp_pass
 ```
@@ -89,35 +134,9 @@ SMTP_PASS=your_smtp_pass
 **Sample for `frontend/.env`:**
 ```
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+VITE_BACKEND_URL=http://localhost:5000
+VITE_CURRENCY=$
 ```
-
-### Installation
-
-```sh
-# Backend
-cd backend
-npm install
-
-# Frontend
-cd ../frontend
-npm install
-```
-
-### Running Locally
-
-**Start the backend:**
-```sh
-cd backend
-npm run server
-```
-
-**Start the frontend:**
-```sh
-cd frontend
-npm run dev
-```
-
-Frontend will be available at `http://localhost:5173` (default Vite port).
 
 ---
 
@@ -138,15 +157,17 @@ Frontend will be available at `http://localhost:5173` (default Vite port).
     ├── src/
     │   ├── assets/
     │   ├── components/
+    │   ├── context/
     │   ├── Pages/
-    │   └── App.jsx
+    │   ├── App.jsx
+    │   └── main.jsx
     ├── index.html
     └── package.json
 ```
 
 ---
 
-## API Overview
+## API Endpoints
 
 - `POST /api/hotels/` — Register a new hotel (owner only)
 - `POST /api/rooms/` — Add a new room (owner only)
@@ -162,15 +183,8 @@ See [backend/controllers](backend/controllers) and [backend/routes](backend/rout
 
 ## Testing
 
-- **Backend:** Use tools like Postman or Insomnia to test API endpoints.
+- **Backend:** Use Postman or Insomnia to test API endpoints.
 - **Frontend:** Run `npm run lint` for code quality checks.
-
----
-
-## Deployment
-
-- **Vercel:** Both frontend and backend are configured for Vercel deployment. See [frontend/vercel.json](frontend/vercel.json) and [backend/vercel.json](backend/vercel.json).
-- **Environment Variables:** Set all required secrets in your Vercel project settings.
 
 ---
 
