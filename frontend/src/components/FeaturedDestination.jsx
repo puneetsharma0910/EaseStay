@@ -1,24 +1,38 @@
-import React from 'react'
-import { useAppContext } from '../context/AppContext';
-import Title from './Title';
-import HotelCard from './HotelCard';
-
-
+import React from "react";
+import { roomsDummyData } from "../assets/assets.js";
+import HotelCard from "./HotelCard.jsx";
+import Title from "./Title.jsx";
+import { useNavigate } from "react-router-dom";
 const FeaturedDestination = () => {
-    const { rooms, navigate } = useAppContext();
-    return rooms.length > 0 && (
-        <div className='flex flex-col items-center px-6 md:px-16 lg:px-24 bg-slate-50 py-20'>
-            <Title title="Featured Destination" subTitle="Discover our handpicked selection of exceptional properties around the world, offering unparalleled luxury and unforgettable experiences." />
-            <div className='flex flex-wrap items-center justify-center gap-6 mt-20'>
-                {rooms.slice(0, 4).map((room, index) => (
-                    <HotelCard key={room._id} room={room} index={index} />
-                ))}
-            </div>
-            <button onClick={() => { navigate('/rooms'); scrollTo(0, 0) }} className='my-16 px-4 py-2 text-sm font-medium border border-gray-300 rounded bg-white hover:bg-gray-50 transition-all cursor-pointer'>
-                View All Destinations
-            </button>
-        </div>
-    )
-}
+  const navigate = useNavigate();
+  return (
+    <div className="container mx-auto px-4 py-10">
+      <Title
+        title="Featured destination"
+        subtitle="✨ Discover our handpicked stays for a memorable escape"
+      />
+      <div className="flex flex-wrap items-center justify-center mt-20 gap-6">
+        {roomsDummyData && roomsDummyData.length > 0 ? (
+          roomsDummyData
+            .slice(0, 4)
+            .map((room, index) => (
+              <HotelCard key={room._id} room={room} index={index} />
+            ))
+        ) : (
+          <p>No rooms available</p> // Fallback if roomsDummyData is empty
+        )}
+      </div>
+      <button
+        onClick={() => {
+          navigate("/rooms");
+          window.scrollTo(0, 0);
+        }}
+        className="block mx-auto mt-10 px-6 py-2 text-sm font-semibold bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-300 cursor-pointer"
+      >
+        View all destinations
+      </button>
+    </div>
+  );
+};
 
-export default FeaturedDestination
+export default FeaturedDestination;
