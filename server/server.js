@@ -6,13 +6,14 @@ import connectDB from "./configs/db.js";
 import { clerkMiddleware } from "@clerk/express";
 import clerkWebhooks from "./controllers/clerkWebhooks.js";
 const app = express();
-app.use(express.json());
+
 app.use(cors());
 
 connectDB();
 
 // Place webhook route BEFORE clerkMiddleware
 app.use("/api/clerk", clerkWebhooks);
+app.use(express.json());
 
 // Apply clerkMiddleware AFTER webhook route
 app.use(clerkMiddleware());
