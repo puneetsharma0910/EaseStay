@@ -10,10 +10,12 @@ app.use(express.json());
 app.use(cors());
 
 connectDB();
+
+// Place webhook route BEFORE clerkMiddleware
 app.use("/api/clerk", clerkWebhooks);
+
+// Apply clerkMiddleware AFTER webhook route
 app.use(clerkMiddleware());
-
-
 
 app.get("/", (req, res) => {
   res.send("API is working!");
