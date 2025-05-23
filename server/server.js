@@ -10,6 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 connectDB();
+app.use(clerkMiddleware());
 
 app.use("/api/clerk", clerkWebhooks);
 
