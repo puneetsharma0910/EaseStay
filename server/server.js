@@ -10,9 +10,10 @@ app.use(express.json());
 app.use(cors());
 
 connectDB();
+app.use("/api/clerk", clerkWebhooks);
 app.use(clerkMiddleware());
 
-app.use("/api/clerk", clerkWebhooks);
+
 
 app.get("/", (req, res) => {
   res.send("API is working!");
