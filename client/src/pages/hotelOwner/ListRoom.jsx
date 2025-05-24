@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 
 const ListRoom = () => {
 
-    const { axios, getToken, user } = useAppContext()
+    const { axios, getToken, user , currency} = useAppContext()
     const [rooms, setRooms] = React.useState([])
 
     // Fetch Rooms of the Hotel Owner
@@ -62,7 +62,7 @@ const ListRoom = () => {
                                 <tr key={index}>
                                     <td className='py-3 px-4 text-gray-700 border-t border-gray-300'>{item.roomType}</td>
                                     <td className='py-3 px-4 text-gray-400 border-t border-gray-300 max-sm:hidden'>{item.amenities.join(', ')}</td>
-                                    <td className='py-3 px-4 text-gray-400 border-t border-gray-300'>{item.pricePerNight}</td>
+                                    <td className='py-3 px-4 text-gray-400 border-t border-gray-300'>{currency} {item.pricePerNight}</td>
                                     <td className='py-3 px-4  border-t border-gray-300 text-center text-sm text-red-500'>
                                         <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
                                             <input type="checkbox" className="sr-only peer" onChange={() => toggleAvailability(item._id)} checked={item.isAvailable} />

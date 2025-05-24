@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { assets, cities } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
 
 const Hero = () => {
-  return (
-    <div className='relative flex flex-col items-start justify-center px-6 md:px-16 lg:px-24 xl:px-32
-      text-white bg-[url("/src/assets/raj.jpg")] bg-no-repeat bg-cover bg-center h-screen'>
+  const { navigate, getToken, axios, setSearchedCities } = useAppContext();
+  const [destination, setDestination] = useState("");
+   const onSearch = async (e) => {
+        e.preventDefault();
+        navigate(`/rooms?destination=${destination}`);
+        // call api to save recent searched city
+        await axios.post('/api/user/store-recent-search', { recentSearchedCity: destination }, {
+            headers: { Authorization: `Bearer ${await getToken()}` }
+        });
+        // add destination to searchedCities max 3 recent searched cities
+        setSearchedCities((prevSearchedCities) => {
+            const updatedSearchedCities = [...prevSearchedCities, destination];
+            if (updatedSearchedCities.length > 3) {
+                updatedSearchedCities.shift();
+            }
+            return updatedSearchedCities;
+        });
+    }
 
+  return (
+    <div
+      className='relative flex flex-col items-start justify-center px-6 md:px-16 lg:px-24 xl:px-32
+      text-white bg-[url("/src/assets/raj.jpg")] bg-no-repeat bg-cover bg-center h-screen'
+    >
       {/* Soft dark overlay on the background for better text visibility */}
       <div className="absolute inset-0 bg-black/20 backdrop-brightness-90"></div>
 
@@ -20,12 +41,15 @@ const Hero = () => {
         </h1>
 
         <p className="max-w-lg mt-4 text-white/90 text-sm md:text-base leading-relaxed drop-shadow">
-          Unparalleled luxury and comfort await at the world's most exclusive hotels and resorts. Start your journey today.
+          Unparalleled luxury and comfort await at the world's most exclusive
+          hotels and resorts. Start your journey today.
         </p>
 
         {/* Form Section */}
-        <form className="bg-white/80 backdrop-blur-md text-gray-700 rounded-xl px-8 py-6 mt-8 flex flex-col md:flex-row md:items-end gap-4 w-full shadow-xl">
-          
+        <form
+          onSubmit={onSearch}
+          className="bg-white/80 backdrop-blur-md text-gray-700 rounded-xl px-8 py-6 mt-8 flex flex-col md:flex-row md:items-end gap-4 w-full shadow-xl"
+        >
           {/* Destination Input */}
           <div className="flex flex-col w-full md:w-1/4">
             <label className="flex items-center gap-2 text-sm font-semibold mb-1">
@@ -33,6 +57,7 @@ const Hero = () => {
               Destination
             </label>
             <input
+              onChange={(e) => setDestination(e.target.value)}
               list="destinations"
               id="destinationInput"
               type="text"
@@ -93,7 +118,6 @@ const Hero = () => {
             <img src={assets.searchIcon} alt="search" className="h-6" />
             Search
           </button>
-
         </form>
       </div>
     </div>

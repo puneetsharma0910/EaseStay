@@ -1,99 +1,90 @@
-import React from "react";
-import Title from "../../components/Title";
-import { assets, dashboardDummyData } from "../../assets/assets";
-import { useState } from "react";
+import React, { useEffect, useState } from 'react'
+import { assets } from '../../assets/assets'
+import Title from '../../components/Title';
+import { useAppContext } from '../../context/AppContext';
 
 const Dashboard = () => {
-  const [dashboardData, setDashboardData] = useState(dashboardDummyData);
 
-  const StatCard = ({ icon, title, value, color }) => (
-    <div className="bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-gray-100/50 p-6 flex items-center gap-4 hover:shadow-md transition-shadow duration-200">
-      <div className={`p-3 rounded-lg ${color}`}>
-        <img src={icon} className="w-8 h-8 object-contain" alt={title} />
-      </div>
-      <div>
-        <p className="text-gray-600 text-sm font-medium">{title}</p>
-        <p className="text-2xl font-semibold text-gray-700 mt-1">{value}</p>
-      </div>
-    </div>
-  );
+    const { currency, user, getToken, toast, axios } = useAppContext();
 
-  return (
-    <div className="space-y-6">
-      <Title
-        align="left"
-        font="outfit"
-        title="Dashboard"
-        subtitle="Monitor your room listings and track bookings. Stay updated with real-time insights to ensure smooth operations"
-      />
+    const [dashboardData, setDashboardData] = useState({
+        bookings: [],
+        totalBookings: 0,
+        totalRevenue: 0,
+    });
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <StatCard
-          icon={assets.totalBookingIcon}
-          title="Total Bookings"
-          value={dashboardData.totalBookings}
-          color="bg-blue-50/80"
-        />
-        <StatCard
-          icon={assets.totalRevenueIcon}
-          title="Total Revenue"
-          value={`$${dashboardData.totalRevenue.toLocaleString()}`}
-          color="bg-green-50/80"
-        />
-      </div>
+    const fetchDashboardData = async () => {
+        try {
+            const { data } = await axios.get('/api/bookings/hotel', { headers: { Authorization: `Bearer ${await getToken()}` } })
+            if (data.success) {
+                setDashboardData(data.dashboardData)
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
 
-      <h2 className="text-xl text-blue-950/70 font-medium mb-5">
-        Recent Bookings
-      </h2>
-      <div className="w-full max-w-3xl text-left border border-gray-300 rounded-lg max-h-80 overflow-y-scroll">
-        <table className="w-full ">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="py-3 px-4 text-gray-800 font-medium">User Name</th>
-              <th className="py-3 px-4 text-gray-800 font-medium max-sm:hidden">
-                Room Name
-              </th>
-              <th className="py-3 px-4 text-gray-800 font-medium">
-                Total Amount
-              </th>
-              <th className="py-3 px-4 text-gray-800 font-medium">
-                Payment Status
-              </th>
-            </tr>
-          </thead>
+    useEffect(() => {
+        if (user) {
+            fetchDashboardData();
+        }
+    }, [user]);
 
-          <tbody className="text-sm">
-            {dashboardData.bookings.map((item, index) => (
-              <tr key={index}>
-                <td className="py-3 px-4 text-gray-800 border-t border-gray-300 ">
-                  {item.user.username}
-                </td>
+    return (
+        <div>
+            <Title align='left' font='outfit' title='Dashboard' subTitle='Monitor your room listings, track bookings and analyze revenue—all in one place. Stay updated with real-time insights to ensure smooth operations.' />
+            <div className='flex gap-4 my-8'>
+                <div className='bg-primary/3 border border-primary/10 rounded flex p-4 pr-8'>
+                    <img className='max-sm:hidden h-10' src={assets.totalBookingIcon} alt="" />
+                    <div className='flex flex-col sm:ml-4 font-medium'>
+                        <p className='text-blue-500 text-lg'>Total Bookings</p>
+                        <p className='text-neutral-400 text-base'>{ dashboardData.totalBookings }</p>
+                    </div>
+                </div>
+                <div className='bg-primary/3 border border-primary/10 rounded flex p-4 pr-8'>
+                    <img className='max-sm:hidden h-10' src={assets.totalRevenueIcon} alt="" />
+                    <div className='flex flex-col sm:ml-4 font-medium'>
+                        <p className='text-blue-500 text-lg'>Total Revenue</p>
+                        <p className='text-neutral-400 text-base'>{currency} { dashboardData.totalRevenue }</p>
+                    </div>
+                </div>
+            </div>
 
-                <td className="py-3 px-4 text-gray-800 border-t border-gray-300 max-sm:hidden">
-                  {item.room.roomType}
-                </td>
-                <td className="py-3 px-4 text-gray-800 border-t border-gray-300">
-                  &#8377; {item.totalPrice}
-                </td>
+            <h2 className='text-xl text-blue-950/70 font-medium mb-5'>Recent Bookings</h2>
+            {/* Table with heads User Name, Room Name, Amount Paid, Payment Status */}
+            <div className='w-full max-w-3xl text-left border border-gray-300 rounded-lg max-h-80 overflow-y-scroll'>
+                <table className='w-full' >
+                    <thead className='bg-gray-50'>
+                        <tr>
+                            <th className='py-3 px-4 text-gray-800 font-medium'>User Name</th>
+                            <th className='py-3 px-4 text-gray-800 font-medium max-sm:hidden'>Room Name</th>
+                            <th className='py-3 px-4 text-gray-800 font-medium text-center'>Total Amount</th>
+                            <th className='py-3 px-4 text-gray-800 font-medium text-center'>Payment Status</th>
+                        </tr>
+                    </thead>
+                    <tbody className='text-sm'>
+                        {
+                            dashboardData.bookings.map((item, index) => (
+                                <tr key={index}>
+                                    <td className='py-3 px-4 text-gray-700 border-t border-gray-300'>{item.user.username}</td>
+                                    <td className='py-3 px-4 text-gray-400 border-t border-gray-300 max-sm:hidden'>{item.room.roomType}</td>
+                                    <td className='py-3 px-4 text-gray-400 border-t border-gray-300 text-center'>{currency} {item.totalPrice}</td>
+                                    <td className='py-3 px-4  border-t border-gray-300 flex'>
+                                        <button className={`py-1 px-3 text-xs rounded-full mx-auto ${item.isPaid ? "bg-green-200 text-green-600" : "bg-amber-200 text-yellow-600"}`}>
+                                            {item.isPaid ? "Completed" : "Pending"}
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-                <td className="py-3 px-4 border-t border-gray-300 flex ">
-                  <button
-                    className={`py-1 px-3 text-xs rounded-full mx-auto ${
-                      item.isPaid
-                        ? "bg-green-200 text-green-600 "
-                        : "bg-amber-600 text-amber-300"
-                    } `}
-                  >
-                    {item.isPaid ? "Completed" : "Pending"}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-};
+        </div>
+    )
+}
 
-export default Dashboard;
+export default Dashboard
