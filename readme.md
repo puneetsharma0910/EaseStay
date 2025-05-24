@@ -1,6 +1,8 @@
 # EaseStay
 
-EaseStay is a modern, full-stack hotel booking platform designed to streamline the process of discovering, booking, and managing hotel stays. Built with a scalable architecture and industry-standard technologies, EaseStay provides a seamless experience for both guests and hotel owners.
+
+
+EaseStay is a modern, full-stack hotel booking platform designed for seamless discovery, booking, and management of hotel stays. Built with a scalable architecture and industry-standard technologies, EaseStay delivers a robust experience for both guests and hotel owners.
 
 ---
 
@@ -10,11 +12,14 @@ EaseStay is a modern, full-stack hotel booking platform designed to streamline t
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Architecture](#architecture)
+- [Screenshots](#screenshots)
+- [Screen Recording](#screen-recording)
 - [Setup & Installation](#setup--installation)
 - [Environment Variables](#environment-variables)
 - [Project Structure](#project-structure)
 - [API Endpoints](#api-endpoints)
 - [Testing](#testing)
+- [What I Learned](#what-i-learned)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -64,6 +69,25 @@ backend/    # Express API, MongoDB models, controllers
 - **Frontend:** SPA using React, React Router, TailwindCSS, Clerk for authentication.
 - **Backend:** REST API with Express, MongoDB (Mongoose), Clerk middleware, Stripe, Cloudinary.
 - **Deployment:** Vercel (frontend and backend), environment-based configuration.
+
+---
+
+## Screenshots
+
+<!-- Add screenshots of your application here -->
+<!-- Example:
+![Home Page](screenshots/home.png)
+![Booking Flow](screenshots/booking.png)
+-->
+
+---
+
+## Screen Recording
+
+<!-- Add a link or embedded video/gif showing the app in action -->
+<!-- Example:
+[Watch Demo on YouTube](https://youtu.be/your-demo-link)
+-->
 
 ---
 
@@ -135,7 +159,7 @@ SMTP_PASS=your_smtp_pass
 ```
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 VITE_BACKEND_URL=http://localhost:5000
-VITE_CURRENCY=&#8377;
+VITE_CURRENCY=₹
 ```
 
 ---
@@ -158,7 +182,7 @@ VITE_CURRENCY=&#8377;
     │   ├── assets/
     │   ├── components/
     │   ├── context/
-    │   ├── Pages/
+    │   ├── pages/
     │   ├── App.jsx
     │   └── main.jsx
     ├── index.html
@@ -177,7 +201,7 @@ VITE_CURRENCY=&#8377;
 - `GET /api/user/` — Get user profile and recent searches
 - `POST /api/user/store-recent-search` — Store a recent search city
 
-See [backend/controllers](backend/controllers) and [backend/routes](backend/routes) for implementation details.
+See [backend/controllers](server/controllers) and [backend/routes](server/routes) for implementation details.
 
 ---
 
@@ -185,6 +209,18 @@ See [backend/controllers](backend/controllers) and [backend/routes](backend/rout
 
 - **Backend:** Use Postman or Insomnia to test API endpoints.
 - **Frontend:** Run `npm run lint` for code quality checks.
+
+---
+
+## What I Learned
+
+- **Full-stack development:** Designed and implemented both frontend and backend from scratch.
+- **Authentication & Authorization:** Integrated Clerk for secure, scalable auth.
+- **RESTful API Design:** Built modular, maintainable Express APIs.
+- **Cloud Services:** Used Cloudinary for image uploads and Stripe for payments.
+- **State Management:** Leveraged React Context for global state.
+- **UI/UX:** Built a responsive, accessible UI with React and TailwindCSS.
+- **DevOps:** Configured Vercel for seamless deployment and CI/CD.
 
 ---
 
@@ -196,13 +232,3 @@ See [backend/controllers](backend/controllers) and [backend/routes](backend/rout
 4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a Pull Request
 
----
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-**Contact:**  
-For questions or support, please open an issue or contact the maintainer.
