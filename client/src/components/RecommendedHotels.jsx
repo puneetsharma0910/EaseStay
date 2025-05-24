@@ -8,12 +8,15 @@ const RecommendedHotels = () => {
 
   const [recommended, setRecommended] = useState([]);
 
-  const filterHotels = () => {
-    const filteredHotels = rooms
-      .slice()
-      .filter((room) => searchedCities.includes(room.hotel.city));
-    setRecommended(filteredHotels);
-  };
+ const filterHotels = () => {
+  let filteredHotels;
+  if (searchedCities.length === 0) {
+    filteredHotels = rooms; // Show all if no search
+  } else {
+    filteredHotels = rooms.filter((room) => searchedCities.includes(room.hotel.city));
+  }
+  setRecommended(filteredHotels);
+};
 
   useEffect(() => {
     filterHotels();

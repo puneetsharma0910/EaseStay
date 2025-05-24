@@ -10,7 +10,7 @@ const ExclusiveOffers = () => {
           align="left"
           title="Exclusive Offers"
           subtitle="💸 Grab the best deals and limited-time discounts curated just for you!"
-        />z
+        />
 
         <button className="group flex items-center gap-2 text-sm font-semibold text-black hover:underline hover:text-gray-800 transition-all">
           View all offers

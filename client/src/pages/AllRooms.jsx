@@ -44,10 +44,10 @@ const AllRooms = () => {
     ];
 
     const priceRanges = [
-        '0 to 500',
         '500 to 1000',
-        '1000 to 2000',
-        '2000 to 3000',
+        '1000 to 2500',
+        '2500 to 5000',
+        '5000 to 10000',
     ];
 
     const sortOptions = [
@@ -159,7 +159,7 @@ const AllRooms = () => {
                                 ))}
                             </div>
                             {/* Room Price per Night */}
-                            <p className='text-xl font-medium text-gray-700'>${room.pricePerNight} /night</p>
+                            <p className='text-xl font-medium text-gray-700'>&#8377;{room.pricePerNight} /night</p>
                         </div>
                     </div>
                 ))}
@@ -184,9 +184,9 @@ const AllRooms = () => {
                         ))}
                     </div>
                     <div className='px-5 pt-5'>
-                        <p className='font-medium text-gray-800 pb-2'>Price Range</p>
+                        <p className='font-medium text-gray-800 pb-2'>Price Range(INR)</p>
                         {priceRanges.map((range, index) => (
-                            <CheckBox key={index} label={`${currency} ${range}`} selected={selectedFilters.priceRange.includes(range)} onChange={(checked) => handleFilterChange(checked, range, 'priceRange')} />
+                            <CheckBox key={index} label={` ${range}`} selected={selectedFilters.priceRange.includes(range)} onChange={(checked) => handleFilterChange(checked, range, 'priceRange')} />
                         ))}</div>
                     <div className="px-5 pt-5 pb-7">
                         <p className="font-medium text-gray-800 pb-2">Sort By</p>

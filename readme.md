@@ -135,7 +135,7 @@ SMTP_PASS=your_smtp_pass
 ```
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 VITE_BACKEND_URL=http://localhost:5000
-VITE_CURRENCY=$
+VITE_CURRENCY=&#8377;
 ```
 
 ---
