@@ -6,7 +6,7 @@ import Home from "./pages/Home.jsx";
 import Footer from "./components/Footer.jsx";
 import Rooms from "./pages/AllRooms.jsx";
 import RoomDetails from "./pages/RoomDetails.jsx";
-import MyBookings from "./Pages/MyBookings.jsx";
+import MyBookings from ".pages/MyBookings.jsx";
 import HotelReg from "./components/HotelReg.jsx";
 import Layout from "./pages/hotelOwner/Layout.jsx";
 
