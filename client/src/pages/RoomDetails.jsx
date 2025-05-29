@@ -14,35 +14,58 @@ const RoomDetails = () => {
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
     const [guests, setGuests] = useState(1);
-
     const [isAvailable, setIsAvailable] = useState(false);
+
+    // Fetch room details: first try context, then fallback to API
+    useEffect(() => {
+        let foundRoom = rooms.find(room => room._id === id);
+        if (foundRoom) {
+            setRoom(foundRoom);
+            setMainImage(foundRoom.images[0]);
+        } else {
+            // Fallback: fetch room by ID from backend
+            axios.get(`/api/rooms/${id}`)
+                .then(({ data }) => {
+                    if (data.success) {
+                        setRoom(data.room);
+                        setMainImage(data.room.images[0]);
+                    } else {
+                        toast.error(data.message || "Room not found");
+                    }
+                })
+                .catch(() => {
+                    toast.error("Failed to load room details");
+                });
+        }
+    }, [rooms, id, axios]);
 
     // Check if the Room is Available
     const checkAvailability = async () => {
         try {
-
-            //  Check is Check-In Date is greater than Check-Out Date
-            if (checkInDate >= checkOutDate) {
-                toast.error('Check-In Date should be less than Check-Out Date')
+            if (!checkInDate || !checkOutDate) {
+                toast.error('Please select both check-in and check-out dates');
                 return;
             }
-
-            const { data } = await axios.post('/api/bookings/check-availability', { room: id, checkInDate, checkOutDate })
+            if (checkInDate >= checkOutDate) {
+                toast.error('Check-In Date should be less than Check-Out Date');
+                return;
+            }
+            const { data } = await axios.post('/api/bookings/check-availability', { room: id, checkInDate, checkOutDate });
             if (data.success) {
                 if (data.isAvailable) {
-                    setIsAvailable(true)
-                    toast.success('Room is available')
+                    setIsAvailable(true);
+                    toast.success('Room is available');
                 } else {
-                    setIsAvailable(false)
-                    toast.error('Room is not available')
+                    setIsAvailable(false);
+                    toast.error('Room is not available');
                 }
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.message);
         }
-    }
+    };
 
     // onSubmitHandler function to check availability & book the room
     const onSubmitHandler = async (e) => {
@@ -51,32 +74,39 @@ const RoomDetails = () => {
             if (!isAvailable) {
                 return checkAvailability();
             } else {
-                const { data } = await axios.post('/api/bookings/book', { room: id, checkInDate, checkOutDate, guests, paymentMethod: "Pay At Hotel" }, { headers: { Authorization: `Bearer ${await getToken()}` } })
+                const { data } = await axios.post(
+                    '/api/bookings/book',
+                    { room: id, checkInDate, checkOutDate, guests, paymentMethod: "Pay At Hotel" },
+                    { headers: { Authorization: `Bearer ${await getToken()}` } }
+                );
                 if (data.success) {
-                    toast.success(data.message)
-                    navigate('/my-bookings')
-                    scrollTo(0, 0)
+                    toast.success(data.message);
+                    navigate('/my-bookings');
+                    window.scrollTo(0, 0);
                 } else {
-                    toast.error(data.message)
+                    toast.error(data.message);
                 }
             }
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.message);
         }
+    };
+
+    if (!room) {
+        return (
+            <div className="flex justify-center items-center min-h-[60vh]">
+                <span className="text-lg text-gray-500">Loading room details...</span>
+            </div>
+        );
     }
 
-    useEffect(() => {
-        const room = rooms.find(room => room._id === id);
-        room && setRoom(room);
-        room && setMainImage(room.images[0]);
-    }, [rooms]);
-
-    return room && (
+    return (
         <div className='py-28 md:py-35 px-4 md:px-16 lg:px-24 xl:px-32'>
-
             {/* Room Details */}
             <div className='flex flex-col md:flex-row items-start md:items-center gap-2'>
-                <h1 className='text-3xl md:text-4xl font-playfair'>{room.hotel.name} <span className='font-inter text-sm'>({room.roomType})</span></h1>
+                <h1 className='text-3xl md:text-4xl font-playfair'>
+                    {room.hotel?.name} <span className='font-inter text-sm'>({room.roomType})</span>
+                </h1>
                 <p className='text-xs font-inter py-1.5 px-3 text-white bg-orange-500 rounded-full'>20% OFF</p>
             </div>
             <div className='flex items-center gap-1 mt-2'>
@@ -85,7 +115,7 @@ const RoomDetails = () => {
             </div>
             <div className='flex items-center gap-1 text-gray-500 mt-2'>
                 <img src={assets.locationIcon} alt='location-icon' />
-                <span>{room.hotel.address}</span>
+                <span>{room.hotel?.address}</span>
             </div>
 
             {/* Room Images */}
@@ -94,11 +124,10 @@ const RoomDetails = () => {
                     <img className='w-full rounded-xl shadow-lg object-cover'
                         src={mainImage} alt='Room Image' />
                 </div>
-
                 <div className='grid grid-cols-2 gap-4 lg:w-1/2 w-full'>
                     {room?.images.length > 1 && room.images.map((image, index) => (
                         <img key={index} onClick={() => setMainImage(image)}
-                            className={`w-full rounded-xl shadow-md object-cover cursor-pointer ${mainImage === image && 'outline-3 outline-orange-500'}`} src={image} alt='Room Image' />
+                            className={`w-full rounded-xl shadow-md object-cover cursor-pointer ${mainImage === image ? 'outline-3 outline-orange-500' : ''}`} src={image} alt='Room Image' />
                     ))}
                 </div>
             </div>
@@ -142,7 +171,7 @@ const RoomDetails = () => {
             </form>
 
             {/* Common Specifications */}
-            <div className='mt-25 space-y-4'>                
+            <div className='mt-25 space-y-4'>
                 {roomCommonData.map((spec, index) => (
                     <div key={index} className='flex items-start gap-2'>
                         <img className='w-6.5' src={spec.icon} alt={`${spec.title}-icon`} />
@@ -160,9 +189,9 @@ const RoomDetails = () => {
 
             <div className='flex flex-col items-start gap-4'>
                 <div className='flex gap-4'>
-                    <img className='h-14 w-14 md:h-18 md:w-18 rounded-full' src={room.hotel.owner.image} alt='Host' />
+                    <img className='h-14 w-14 md:h-18 md:w-18 rounded-full' src={room.hotel?.owner?.image} alt='Host' />
                     <div>
-                        <p className='text-lg md:text-xl'>Hosted by {room.hotel.name}</p>
+                        <p className='text-lg md:text-xl'>Hosted by {room.hotel?.name}</p>
                         <div className='flex items-center mt-1'>
                             <StarRating />
                             <p className='ml-2'>200+ reviews</p>
@@ -174,7 +203,7 @@ const RoomDetails = () => {
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default RoomDetails
+export default RoomDetails;
