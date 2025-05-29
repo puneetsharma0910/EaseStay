@@ -1,7 +1,7 @@
 import Hotel from "../models/Hotel.js";
 import User from "../models/User.js";
 
-API to create a new hotel
+//API to create a new hotel
 // POST /api/hotels
 export const registerHotel = async (req, res) => {
   try {
