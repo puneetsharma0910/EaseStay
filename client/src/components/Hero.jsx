@@ -81,6 +81,7 @@ const Hero = () => {
             <input
               id="checkIn"
               type="date"
+              min={new Date().toISOString().split('T')[0]} 
               className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
           </div>
@@ -94,6 +95,7 @@ const Hero = () => {
             <input
               id="checkOut"
               type="date"
+             min={new Date().toISOString().split('T')[0]}
               className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
           </div>
@@ -112,6 +114,7 @@ const Hero = () => {
               placeholder="0"
             />
           </div>
+          
 
           {/* Search Button */}
           <button className="flex items-center justify-center gap-2 rounded-lg bg-[#1B1B1B] hover:bg-black py-3 px-6 text-white text-sm font-semibold transition-all w-full md:w-auto">

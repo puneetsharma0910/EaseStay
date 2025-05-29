@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
-const bookingSchema = new mongoose.Schema(
+const bookingSchema = new Schema(
   {
     user: { type: String, ref: "User", required: true },
     room: { type: String, ref: "Room", required: true },
@@ -16,7 +17,7 @@ const bookingSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      required: true,
+      
       default: "Pay At Hotel",
     },
     isPaid: { type: Boolean, default: false },
